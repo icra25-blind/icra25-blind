@@ -22,7 +22,14 @@ sub, sup {line-height: 0;}
 .content-video {width: 100%; margin: 0; text-align: center;}
 .content-video-container {width: 100%; max-width: 960px; margin: auto;}
 .content-video-frame {display: inline-block; width: 24.5%; text-align: center;}
-.content-video-frame.medium {width: 30%;}
+.content-video-frame.medium {
+    width: 100%;       /* 占满父容器 */
+    max-width: 900px;  /* 可选：给个最大宽度 */
+}
+.content-video-frame.medium video {
+    width: 100%;       /* 视频自适应 */
+    height: auto;      /* 按比例缩放 */
+}
 .content-video-frame.medium span {
 	margin-bottom: 0px; /* 调整下边距以减小文本和视频之间的距离 */
 }
