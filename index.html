@@ -1,124 +1,147 @@
+
+<head>
+	<title>I-MPPI for Multi-Segment Soft Robots</title>
+	<meta charset="utf-8">
+	<meta property="og:title" content="Title">
+	<meta property="og:description" content="Test">
+	<link rel="stylesheet" href="style.css?1">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+	</script>
+	<script type="text/javascript" async
+  		src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+	<script type="text/javascript">
+		function toggle(id) {
+			var e = document.getElementById(id);
+			if(e.style.display == 'block')
+				e.style.display = 'none';
+			else
+				e.style.display = 'block';
+		}
+	</script>
+</head>
+
 <div class="header" id="top">
-  <h1>
-    I-MPPI for Multi-Segment Soft Robots: <br> A Minimal Model-Learning Approach
-  </h1>
-</div>
+	<h1>
+		I-MPPI for Multi-Segment Soft Robots: <br> A Minimal Model-Learning Approach
 
+</div>
 <div class="content">
-  <div>
-    <h2>Abstract</h2>
-    <p class="abstract">
-      While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
-    </p>
-  </div>
+	<div>
+		<h2>Abstract</h2>
+		<p class="abstract">
+		While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
+		</p>
+	</div>
+	<div class="hr"></div>
 
-  <div class="hr"></div>
+		<div>
+			<h2>The proposed I-MPPI architecture</h2>
+			<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
+		</div>
 
-  <div>
-    <h2>The proposed I-MPPI architecture</h2>
-    <div class="figure-caption"></div>
-    <div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
-  </div>
+		<div>
+			<h2>Simple model</h2>
+			<div class="content-video">
+			<div class="content-video-frame medium">
+				<span></span>
+				<video playsinline autoplay loop muted preload="metadata" controls>
+				<!-- 注意：确认实际文件名大小写与路径完全一致 -->
+				<source src="Videos/Simplemodel.mp4" type="video/mp4"/>
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</div>
+		</div>
 
-  <div>
-    <h2>Simple model</h2>
-    <div class="content-video">
-      <div class="content-video-frame medium">
-        <span></span>
-        <video playsinline autoplay loop muted preload="metadata" controls>
-          <!-- 注意：确认实际文件名大小写与路径完全一致 -->
-          <source src="Videos/Simplemodel.mp4" type="video/mp4"/>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </div>
+		<div>
+			<h2>Iterative MPPI</h2>
+			<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
+		</div>
 
-  <div>
-    <h2>Iterative MPPI</h2>
-    <div class="figure-caption"></div>
-    <div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
-  </div>
+		<div>
+			<h2>Iterative annealing</h2>
+			<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
+		</div>
 
-  <div>
-    <h2>Iterative annealing</h2>
-    <div class="figure-caption"></div>
-    <div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
-  </div>
+		<div>
+			<h2>Hardware of soft robot</h2>
+			<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
+		</div>
 
-  <div>
-    <h2>Hardware of soft robot</h2>
-    <div class="figure-caption"></div>
-    <div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
-  </div>
+		<div>
+			<h2>Experiments on real robots</h2>
 
-  <div>
-    <h2>Experiments on real robots</h2>
+			<h3>Trajectory tracking</h3>
+			<div class="content-video">
+			<div class="content-video-frame medium">
+				<span></span>
+				<video playsinline autoplay loop muted preload="metadata" controls>
+				<source src="Videos/Exp1.mp4" type="video/mp4"/>
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</div>
 
-    <h3>Trajectory tracking</h3>
-    <div class="content-video">
-      <div class="content-video-frame medium">
-        <span></span>
-        <video playsinline autoplay loop muted preload="metadata" controls>
-          <source src="Videos/Exp1.mp4" type="video/mp4"/>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
+			<h3>Moving target tracking</h3>
+			<div class="content-video">
+			<div class="content-video-frame medium">
+				<span></span>
+				<video playsinline autoplay loop muted preload="metadata" controls>
+				<source src="Videos/Exp2.mp4" type="video/mp4"/>
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</div>
+		</div>
 
-    <h3>Moving target tracking</h3>
-    <div class="content-video">
-      <div class="content-video-frame medium">
-        <span></span>
-        <video playsinline autoplay loop muted preload="metadata" controls>
-          <source src="Videos/Exp2.mp4" type="video/mp4"/>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </div>
+		<div>
+			<h2>Video</h2>
+			<div style="margin-bottom: 32px; display: flex; justify-content: center;">
+			<div style="width: 1000px; max-width: 100%;">
+				<span></span>
+				<video playsinline autoplay loop preload="metadata" muted controls width="1000" height="auto" style="width:100%; height:auto;">
+				<source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</div>
+		</div>
 
-  <div>
-    <h2>Video</h2>
-    <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-      <div style="width: 1000px; max-width: 100%;">
-        <span></span>
-        <video playsinline autoplay loop preload="metadata" muted controls width="1000" height="auto" style="width:100%; height:auto;">
-          <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div>
-  </div>
+		<style>
+			.content-video {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 32px;
+			}
+		
+			.content-video-container {
 
-  <style>
-    .content-video {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 32px;
-    }
+				max-width: 100%;
+				position: relative;
+			}
+		
+			.content-video-frame {
+				/* 使视频容器的宽度适应其内容 */
+				width: 100%;
+				max-width: 1200px;
+			}
+		
+			.content-video-frame video {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
 
-    .content-video-frame {
-      width: 100%;
-      max-width: 1200px; /* 放大上限，必要时可调更大 */
-      position: relative;
-    }
-
-    .content-video-frame video {
-      width: 100%;
-      height: auto; /* 保持比例 */
-      display: block;
-    }
-
-    /* 可选：让 .figure 背景图在大屏下也更宽一些 */
-    .figure {
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto 24px auto;
-    }
-  </style>
 </div>
+<footer>
+<a href="#top" class="bold">To top &UpArrow;</a>
+</footer>
