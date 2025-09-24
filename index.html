@@ -28,32 +28,25 @@
 </div>
 
 <div class="content">
-  <div>
-    <h3>Abstract</h3>
-    <p class="abstract">
-      While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
-    </p>
-  </div>
 
-  <div class="hr"></div>
-
-  <!-- H2: METHOD -->
   <h2>METHOD</h2>
 
-  <div>
-    <h3>The proposed I-MPPI architecture</h3>
-    <div class="figure-caption"></div>
-    <div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
-  </div>
+  <h3>The proposed I-MPPI architecture</h3>
+  <p>
+    The overall architecture consists of a learned simple model and an iterative MPPI controller. 
+    In each control cycle, multiple short-horizon sampling and weighted updates are performed, 
+    and only the first action is executed. This iterative sampling progressively reduces the 
+    exploration range, improving stability and accuracy.
+  </p>
+  <div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
 
   <h3>Simple model</h3>
+  <p>
+    The model is a compact one-step forward predictor (MLP), trained directly from robot interaction data. 
+    The dataset includes steady-state responses, random excitation, and trajectory tracking runs to ensure 
+    sufficient coverage of the operating envelope.
+  </p>
   <div class="content-video">
-    <!-- <div class="content-video-frame medium">
-      <span></span>
-      <video playsinline autoplay loop muted>
-        <source src="Videos/trackingside.mp4" type="video/mp4"/>
-      </video>
-    </div> -->
     <div class="content-video-frame medium">
       <span></span>
       <video playsinline autoplay loop muted>
@@ -63,28 +56,36 @@
   </div>
 
   <h3>Iterative MPPI</h3>
-  <div class="figure-caption"></div>
+  <p>
+    The controller builds upon MPPI, but performs multiple refinement iterations per cycle and 
+    applies a warm-start strategy to reduce variance and accelerate convergence.
+  </p>
   <div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
 
   <h3>Iterative annealing</h3>
-  <div class="figure-caption"></div>
+  <p>
+    In each iteration, the sampling noise scale is gradually reduced, transitioning from 
+    coarse exploration to local fine-tuning. This annealing mechanism reduces jitter and 
+    improves steady-state precision.
+  </p>
   <div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
 
   <h3>Hardware of soft robot</h3>
-  <div class="figure-caption"></div>
+  <p>
+    The experimental platform is a multi-segment rigid–flexible soft robot, equipped with nine pneumatic 
+    actuation units and corresponding drivers, as well as an optical tracking system for real-time feedback.
+  </p>
   <div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
 
-  <!-- H2: EXPERIMENTS -->
   <h2>EXPERIMENTS ON REAL ROBOTS</h2>
 
   <h3>Trajectory tracking</h3>
+  <p>
+    We evaluated circular, square, and figure-eight reference paths, comparing theoretical trajectories 
+    with actual execution. The results show that the method achieves millimeter-level accuracy across 
+    all paths, with the best performance on smooth references.
+  </p>
   <div class="content-video">
-    <!-- <div class="content-video-frame medium">
-      <span></span>
-      <video playsinline autoplay loop muted>
-        <source src="Videos/trackingside.mp4" type="video/mp4"/>
-      </video>
-    </div> -->
     <div class="content-video-frame medium">
       <span></span>
       <video playsinline autoplay loop muted>
@@ -94,13 +95,13 @@
   </div>
 
   <h3>Moving target tracking</h3>
+  <p>
+    Eight sequential targets were placed near the workspace boundaries. The robot converged to 
+    each target quickly, with average errors on the order of a few millimeters. Errors were 
+    larger for diagonal targets, consistent with stronger coupling and larger actuation ranges, 
+    but overall performance followed expected modeling trends.
+  </p>
   <div class="content-video">
-    <!-- <div class="content-video-frame medium">
-      <span></span>
-      <video playsinline autoplay loop muted>
-        <source src="Videos/trackingside.mp4" type="video/mp4"/>
-      </video>
-    </div> -->
     <div class="content-video-frame medium">
       <span></span>
       <video playsinline autoplay loop muted>
@@ -109,39 +110,22 @@
     </div>
   </div>
 
-  <!-- H2: VIDEO -->
   <h2>VIDEO</h2>
+  <p>
+    The complete video demonstrates the deployment of the method on multi-segment soft robots, 
+    including model training, I-MPPI control process, and real-world task execution.
+  </p>
   <div style="margin-bottom: 32px; display: flex; justify-content: center;">
     <div style="width: 1000px;">
       <span></span>
-      <video playsinline autoplay loop preload muted width="1000" height="auto" style="width:100%; height:auto;">
+      <video playsinline autoplay loop preload muted width="1000" height="auto">
         <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
       </video>
     </div>
   </div>
 
-  <style>
-    .content-video {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 32px;
-    }
-    .content-video-container {
-      max-width: 100%;
-      position: relative;
-    }
-    .content-video-frame {
-      /* 使视频容器的宽度适应其内容 */
-      width: 100%;
-      max-width: 1200px;
-    }
-    .content-video-frame video {
-      width: 100%;
-      height: 100%;
-    }
-  </style>
 </div>
+
 
 <footer>
   <a href="#top" class="bold">To top &UpArrow;</a>
