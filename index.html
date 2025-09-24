@@ -26,63 +26,44 @@
 
 <div class="header" id="top">
 	<h1>
-		Multi-segment Soft Robot Control via <br> Deep Koopman-based Model Predictive Control
-	</h1>
-	<table class="authors">
-		<h4>
-			<span class="authors-affiliation">Lei Lv<sup>1,2</sup>, Lei Liu<sup>2,3</sup>, Lei Bao<sup>3,4</sup>, Fuchun Sun<sup>2</sup>, Jiahong Dong<sup>5</sup>, Jianwei Zhang<sup>6</sup></span>,Xuemei Shan<sup>4</sup></span>,Kai Sun<sup>2,3</sup></span>,Hao Huang<sup>7</sup></span>,Yu Luo<sup>2</sup></span>
-			<br>
-			<br>
-			<span class="authors-affiliation" style="font-size: 0.95em"><sup>1</sup>Shanghai Research Institute for Intelligent Autonomous Systems, Tongji University, <br> <sup>2</sup>Department of Computer Science and Technology, Tsinghua  University, <br> <sup>3</sup>School of Biomedical Engineering, Tsinghua University,  <br> <sup>4</sup>Beijing Soft Robot Tech Co., Ltd, <br> <sup>5</sup>School of Clinical Medicine, Tsinghua University, <br> <sup>6</sup>Department of Informatics, University of Hamburg</span>,<br> <sup>7</sup>School of Mechanical Engineering and Automation, Beihang University</span>
-		</h4>
-	</table>
+		I-MPPI for Multi-Segment Soft Robots: <br> A Minimal Model-Learning Approach
+
 </div>
 <div class="content">
 	<div>
 		<h2>Abstract</h2>
 		<p class="abstract">
-			Soft robots, compared to regular rigid robots, as their multiple segments with soft materials bring flexibility and compliance, have the advantages of safe interaction and
-dexterous operation in the environment. However, due to its
-characteristics of high dimensional, nonlinearity, time-varying
-nature, and infnite degree of freedom, it has been challenges
-in achieving precise and dynamic control such as trajectory
-tracking and position reaching. To address these challenges, we
-propose a framework of Deep Koopman-based Model Predictive
-Control (DK-MPC) for handling multi-segment soft robots.
-We frst employ a deep learning approach with sampling
-data to approximate the Koopman operator, which therefore
-linearizes the high-dimensional nonlinear dynamics of the soft
-robots into a fnite-dimensional linear representation. Secondly,
-this linearized model is utilized within a model predictive
-control framework to compute optimal control inputs that
-minimize the tracking error between the desired and actual
-state trajectories. The real-world experiments on the soft robot
-“Chordata” demonstrate that DK-MPC could achieve high-precision control, showing the potential of DK-MPC for future
-applications to soft robots.
+While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
 		</p>
 	</div>
 	<div class="hr"></div>
 	<div>
-		<h2>The proposed DK-MPC architecture</h2>
-		<div class="figure-caption">
-			<p>
-				DK-MPC architecture. 
-			</p>
-		</div>
+		<h2>The proposed I-MPPI architecture</h2>
+
 		<div class="figure-caption"></div>
-			<div class="figure" style="height: 410px; background-image: url(Figures/dkmpc2.png);"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
 		</div>
-		<h2>Framework for Learning Koopman Operators</h2>
+		<h2>Simple model</h2>
 		<div class="figure-caption"></div>
-			<div class="figure" style="height: 410px; background-image: url(Figures/framework.png);"></div>
+			<div class="figure" style="height: 410px; background-image: url(Videos/Simplemodel.mp4);"></div>
 		</div>
-		<h2>Design of soft robot "Chordata "</h2>
+		<h2>Iterative MPPI</h2>
 		<div class="figure-caption"></div>
-			<div class="figure" style="height: 410px; background-image: url(Figures/design.png);"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
+		</div>
+		<h2>Iterative  annealing</h2>
+		<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
 		</div>
 
-		<h2>Experiments on soft robot "Chordata "</h2>
-		<h3>Moving target tracking(1 x )</h2>
+
+		<h2>Hardware of soft robot</h2>
+		<div class="figure-caption"></div>
+			<div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
+		</div>
+
+		<h2>Experiments on real robots</h2>
+		<h3>Trajectory tracking</h2>
 			<div class="content-video">
 				<!-- <div class="content-video-frame medium">
 					<span></span>
@@ -93,69 +74,31 @@ applications to soft robots.
 				<div class="content-video-frame medium">
 					<span></span>
 					<video playsinline autoplay loop muted>
-						<source src="Videos/trackingfront.mp4" type="video/mp4"/>
+						<source src="Videos/Exp1.mp4" type="video/mp4"/>
 					</video>
 				</div>
 			</div>
 
 
-		<h3>Path tracking (10 x )</h3>
-		<p style="text-align: center; margin-top: 20px;">(For accurate video alignment, please ensure to refresh the page prior to playback).</p>
-		<div class="content-video">
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/t2.mp4" type="video/mp4"/>
-				</video>
+		<h3>Moving target tracking</h2>
+			<div class="content-video">
+				<!-- <div class="content-video-frame medium">
+					<span></span>
+					<video playsinline autoplay loop muted>
+						<source src="Videos/trackingside.mp4" type="video/mp4"/>
+					</video>
+				</div> -->
+				<div class="content-video-frame medium">
+					<span></span>
+					<video playsinline autoplay loop muted>
+						<source src="Videos/Exp2.mp4" type="video/mp4"/>
+					</video>
+				</div>
 			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/h2.mp4" type="video/mp4"/>
-				</video>
-			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/u2.mp4" type="video/mp4"/>
-				</video>
-			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/o2.mp4" type="video/mp4"/>
-				</video>
-			</div>
-		</div>
-		
-		<div class="content-video">
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/t2fig.mp4" type="video/mp4"/>
-				</video>
-			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/h2fig.mp4" type="video/mp4"/>
-				</video>
-			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/u2fig.mp4" type="video/mp4"/>
-				</video>
-			</div>
-			<div class="content-video-frame medium">
-				<span></span>
-				<video playsinline autoplay loop muted>
-					<source src="Videos/o2fig.mp4" type="video/mp4"/>
-				</video>
-			</div>
-		</div>
-		<h3>Path tracking</h3>
 
+
+
+		<h3>Path tracking</h3>
 			<div class="figure" style="height: 410px; background-image: url(Figures/THU3.png);"></div>
 		</div>
 		<h3>Moving Target tracking</h3>
@@ -167,7 +110,7 @@ applications to soft robots.
 		    <div style="width: 1000px;">
 		        <span></span>
 		        <video playsinline autoplay loop preload muted width="1000" height="auto">
-		            <source src="Videos/video.mp4" type="video/mp4"/>
+		            <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
 		        </video>
 		    </div>
 		</div>
