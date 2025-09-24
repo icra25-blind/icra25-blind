@@ -26,7 +26,7 @@ sub, sup {line-height: 0;}
 .content-video-frame.medium span {
 	margin-bottom: 0px; /* 调整下边距以减小文本和视频之间的距离 */
 }
-.content-video-frame.large {width: 36%;}
+.content-video-frame.large {    width: 100%;   max-width: 1200px; /* 或者更大 */}
 .content-video-frame.huge {width: 76%;}
 .content-video-frame span {display: inline-block; margin-bottom: 12px; font-weight: bold; font-size: 1.2em;}
 .hidden-content {display: none; background-color: #f3f3f6; border: 0; border-radius: 12px; margin-top: -18px; margin-bottom: 32px; padding-top: 50px; padding-bottom: 32px;}
