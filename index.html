@@ -29,7 +29,7 @@
 
 <div class="content">
   <div>
-    <h2>Abstract</h2>
+    <h3>Abstract</h3>
     <p class="abstract">
       While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
     </p>
@@ -37,16 +37,16 @@
 
   <div class="hr"></div>
 
-  <!-- NEW H1 -->
-  <h1>METHOD</h1>
+  <!-- H2: METHOD -->
+  <h2>METHOD</h2>
 
   <div>
-    <h2>The proposed I-MPPI architecture</h2>
+    <h3>The proposed I-MPPI architecture</h3>
     <div class="figure-caption"></div>
     <div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
   </div>
 
-  <h2>Simple model</h2>
+  <h3>Simple model</h3>
   <div class="content-video">
     <!-- <div class="content-video-frame medium">
       <span></span>
@@ -62,23 +62,22 @@
     </div>
   </div>
 
-  <h2>Iterative MPPI</h2>
+  <h3>Iterative MPPI</h3>
   <div class="figure-caption"></div>
   <div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
 
-  <h2>Iterative annealing</h2>
+  <h3>Iterative annealing</h3>
   <div class="figure-caption"></div>
   <div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
 
-  <h2>Hardware of soft robot</h2>
+  <h3>Hardware of soft robot</h3>
   <div class="figure-caption"></div>
   <div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
 
-  <!-- CHANGED TO H1 + UPPERCASE -->
-  <h1>EXPERIMENTS ON REAL ROBOTS</h1>
+  <!-- H2: EXPERIMENTS -->
+  <h2>EXPERIMENTS ON REAL ROBOTS</h2>
 
-  <!-- SUBSECTIONS CHANGED TO H2 -->
-  <h2>Trajectory tracking</h2>
+  <h3>Trajectory tracking</h3>
   <div class="content-video">
     <!-- <div class="content-video-frame medium">
       <span></span>
@@ -94,7 +93,7 @@
     </div>
   </div>
 
-  <h2>Moving target tracking</h2>
+  <h3>Moving target tracking</h3>
   <div class="content-video">
     <!-- <div class="content-video-frame medium">
       <span></span>
@@ -110,8 +109,8 @@
     </div>
   </div>
 
-  <!-- CHANGED TO H1 -->
-  <h1>Video</h1>
+  <!-- H2: VIDEO -->
+  <h2>VIDEO</h2>
   <div style="margin-bottom: 32px; display: flex; justify-content: center;">
     <div style="width: 1000px;">
       <span></span>
