@@ -27,7 +27,17 @@
   </h1>
 </div>
 
+
+
+
 <div class="content">
+
+  <h2>ABSTRACT</h2>
+  <p class="abstract">
+    While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
+  </p>
+  <div class="hr"></div>
+
 
   <h2>METHOD</h2>
 
@@ -65,7 +75,7 @@
   <h3>Iterative annealing</h3>
   <p>
     In each iteration, the sampling noise scale is gradually reduced, transitioning from 
-    broad exploration to local convergence. This annealing mechanism reduces jitter and 
+    coarse exploration to local fine-tuning. This annealing mechanism reduces jitter and 
     improves steady-state precision.
   </p>
   <div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
@@ -79,7 +89,7 @@
 
   <h2>EXPERIMENTS ON REAL ROBOTS</h2>
 
-  <h3>Trajectory tracking (1×)</h3>
+  <h3>Trajectory tracking</h3>
   <p>
     We evaluated circular, square, and figure-eight reference paths, comparing theoretical trajectories 
     with actual execution. The results show that the method achieves millimeter-level accuracy across 
@@ -94,7 +104,7 @@
     </div>
   </div>
 
-  <h3>Moving target tracking (2×)</h3>
+  <h3>Moving target tracking</h3>
   <p>
     Eight sequential targets were placed near the workspace boundaries. The robot converged to 
     each target quickly, with average errors on the order of a few millimeters. Errors were 
@@ -118,9 +128,9 @@
   <div style="margin-bottom: 32px; display: flex; justify-content: center;">
     <div style="width: 1000px;">
       <span></span>
-        <video id="main-video" playsinline loop controls preload="metadata" style="width:100%; height:auto;">
-          <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
-        </video>
+      <video playsinline autoplay loop preload muted width="1000" height="auto">
+        <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
+      </video>
     </div>
   </div>
 
@@ -130,5 +140,3 @@
 <footer>
   <a href="#top" class="bold">To top &UpArrow;</a>
 </footer>
-
-
