@@ -19,6 +19,50 @@
       else e.style.display = 'block';
     }
   </script>
+
+  <!-- ★ 为点击播放覆盖层新增的最小样式（可放到你自己的 css 里） -->
+  <style>
+    .video-wrap {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+    .video-wrap video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(0deg, rgba(0,0,0,0.45), rgba(0,0,0,0.45));
+      cursor: pointer;
+      transition: opacity .25s ease;
+    }
+    .play-overlay.hidden { opacity: 0; pointer-events: none; }
+    .play-btn {
+      width: 84px; height: 84px; border-radius: 50%;
+      background: #ffffffcc; color: #000;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,.45);
+    }
+    .play-btn:after {
+      content: "";
+      display: block;
+      margin-left: 4px;
+      width: 0; height: 0;
+      border-left: 26px solid #000;
+      border-top: 16px solid transparent;
+      border-bottom: 16px solid transparent;
+    }
+  </style>
 </head>
 
 <div class="header" id="top">
@@ -27,9 +71,6 @@
   </h1>
 </div>
 
-
-
-
 <div class="content">
 
   <h2>ABSTRACT</h2>
@@ -37,7 +78,6 @@
     While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
   </p>
   <div class="hr"></div>
-
 
   <h2>METHOD</h2>
 
@@ -125,18 +165,48 @@
     The complete video demonstrates the deployment of the method on multi-segment soft robots, 
     including model training, I-MPPI control process, and real-world task execution.
   </p>
+
+  <!-- ★ 把最后这个视频改为“点击播放并且有声音” -->
   <div style="margin-bottom: 32px; display: flex; justify-content: center;">
-    <div style="width: 1000px;">
-      <span></span>
-      <video playsinline autoplay loop preload muted width="1000" height="auto">
+    <div class="video-wrap">
+      <!-- 关键：去掉 autoplay 和 muted；保留 playsinline、preload、可选 loop -->
+      <video id="main-video" playsinline preload="metadata" loop>
         <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
       </video>
+      <div id="main-overlay" class="play-overlay">
+        <div class="play-btn" title="Play with sound"></div>
+      </div>
     </div>
   </div>
 
 </div>
 
-
 <footer>
   <a href="#top" class="bold">To top &UpArrow;</a>
 </footer>
+
+<!-- ★ 点击覆盖层后开始播放 + 出声，并显示控制条 -->
+<script>
+  (function(){
+    var v = document.getElementById('main-video');
+    var o = document.getElementById('main-overlay');
+    if (!v || !o) return;
+
+    function startPlayWithSound(){
+      // 不再静音，显示控制条（移动端需要用户手势触发）
+      v.removeAttribute('muted');
+      v.setAttribute('controls', '');
+      // iOS 等浏览器可能需要捕获 Promise
+      v.play && v.play().catch(function(){});
+      o.classList.add('hidden');
+    }
+
+    // 点击覆盖层启动
+    o.addEventListener('click', startPlayWithSound, {passive:true});
+
+    // 兼容：若用户直接点视频本体，也启动
+    v.addEventListener('click', function(){
+      if (v.paused) startPlayWithSound();
+    }, {passive:true});
+  })();
+</script>
