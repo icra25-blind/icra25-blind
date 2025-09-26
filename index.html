@@ -1,176 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <title>Periodic Steady-State Control of Handkerchief Spinning</title>
+  <title>I-MPPI for Multi-Segment Soft Robots</title>
   <meta charset="utf-8">
-  <meta property="og:title" content="Handkerchief Spinning with Tendon-Driven Wrist">
-  <meta property="og:description" content="Parallel anti-parallelogram tendon-driven wrist + hierarchical control + particle–spring modeling enable robust rest-to-steady transitions and precise handkerchief spinning.">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="Title">
+  <meta property="og:description" content="Test">
   <link rel="stylesheet" href="style.css?1">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- MathJax -->
   <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}}); 
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
   </script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>
-
-  <style>
-    html, body { margin:0; padding:0; background:#000; color:#fff; overflow-x:hidden; }
-    body { font-family:"Google Sans","Noto Sans",sans-serif; line-height:2.0; }
-
-    /* 顶部全宽视频 */
-    .header { width:100vw; background:#000; }
-    .header > video {
-      display:block;
-      width:100vw; height:auto;
-      max-height:100vh;
-      object-fit:contain;
-      object-position:center center;
-      background:#000;
+  <script type="text/javascript">
+    function toggle(id) {
+      var e = document.getElementById(id);
+      if (e.style.display == 'block') e.style.display = 'none';
+      else e.style.display = 'block';
     }
-
-    .content { max-width:1100px; margin:0 auto; padding:40px 20px; }
-    h2 { margin: 32px 0 12px; font-size:28px; }
-    h3 { margin: 24px 0 8px; font-size:20px; }
-
-    .figure {
-      width:100%; height:410px; margin:16px 0 28px;
-      background-size:cover; background-position:center;
-      border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.35);
-    }
-
-    .content-video { display:flex; justify-content:center; margin:16px 0 28px; }
-    .content-video video {
-      width:min(100%,1000px); height:auto; display:block;
-      border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.35);
-    }
-
-    footer { text-align:center; padding:24px 20px 40px; }
-    a.bold { font-weight:700; color:#fff; text-decoration:none; }
-    a.bold:hover { text-decoration:underline; }
-  </style>
+  </script>
 </head>
 
-<body>
-  
-  <!-- 顶部全宽视频 -->
-  <div class="header" id="top">
-    <video playsinline autoplay loop muted preload="metadata">
-      <source src="Videos/title.mp4" type="video/mp4"/>
-      Your browser does not support HTML5 video.
-    </video>
+<div class="header" id="top">
+  <h1>
+    I-MPPI for Multi-Segment Soft Robots: <br> A Minimal Model-Learning Approach
+  </h1>
+</div>
+
+
+
+
+<div class="content">
+
+  <h2>ABSTRACT</h2>
+  <p class="abstract">
+    While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
+  </p>
+  <div class="hr"></div>
+
+
+  <h2>METHOD</h2>
+
+  <h3>The proposed I-MPPI architecture</h3>
+  <p>
+    The overall architecture consists of a learned simple model and an iterative MPPI controller. 
+    In each control cycle, multiple short-horizon sampling and weighted updates are performed, 
+    and only the first action is executed. This iterative sampling progressively reduces the 
+    exploration range, improving stability and accuracy.
+  </p>
+  <div class="figure" style="height: 410px; background-image: url(Figures/fig1.png);"></div>
+
+  <h3>Simple model</h3>
+  <p>
+    The model is a compact one-step forward predictor (MLP), trained directly from robot interaction data. 
+    The dataset includes steady-state responses, random excitation, and trajectory tracking runs to ensure 
+    sufficient coverage of the operating envelope.
+  </p>
+  <div class="content-video">
+    <div class="content-video-frame medium">
+      <span></span>
+      <video playsinline autoplay loop muted>
+        <source src="Videos/Simplemodel.mp4" type="video/mp4"/>
+      </video>
+    </div>
   </div>
 
-  <div class="content">
-    <h2>ABSTRACT</h2>
-    <div class="figure" style="background-image:url(Figures/system_perspective.png)"></div>
-    <p>
-      Spinning flexible objects, exemplified by traditional Chinese handkerchief performances, demands periodic steady-state motions under nonlinear dynamics with frictional contacts and boundary constraints. 
-      We design a tendon-driven dexterous wrist based on a parallel anti-parallelogram structure, achieving $90^\circ$ omnidirectional rotation with low inertia and decoupled roll–pitch sensing, and implement a hierarchical control scheme. 
-      A particle–spring model provides a control-oriented abstraction to analyze initiation strategies. 
-      Hardware experiments validate this framework, achieving $\sim99\%$ unfolding ratio and fingertip tracking error of $\mathrm{RMSE}=2.88\,\text{mm}$. 
-      These results show that combining task-tailored wrist hardware with control-oriented modeling enables robust rest-to–steady-state transitions and precise periodic manipulation of flexible fabrics.
-    </p>
-    <div class="content-video">
+  <h3>Iterative MPPI</h3>
+  <p>
+    The controller builds upon MPPI, but performs multiple refinement iterations per cycle and 
+    applies a warm-start strategy to reduce variance and accelerate convergence.
+  </p>
+  <div class="figure" style="height: 410px; background-image: url(Figures/I-MPPI.jpg);"></div>
+
+  <h3>Iterative annealing</h3>
+  <p>
+    In each iteration, the sampling noise scale is gradually reduced, transitioning from 
+    coarse exploration to local fine-tuning. This annealing mechanism reduces jitter and 
+    improves steady-state precision.
+  </p>
+  <div class="figure" style="height: 410px; background-image: url(Figures/anneal.png);"></div>
+
+  <h3>Hardware of soft robot</h3>
+  <p>
+    The experimental platform is a multi-segment rigid–flexible soft robot, equipped with nine pneumatic 
+    actuation units and corresponding drivers, as well as an optical tracking system for real-time feedback.
+  </p>
+  <div class="figure" style="height: 410px; background-image: url(Figures/robot.png);"></div>
+
+  <h2>EXPERIMENTS ON REAL ROBOTS</h2>
+
+  <h3>Trajectory tracking</h3>
+  <p>
+    We evaluated circular, square, and figure-eight reference paths, comparing theoretical trajectories 
+    with actual execution. The results show that the method achieves millimeter-level accuracy across 
+    all paths, with the best performance on smooth references.
+  </p>
+  <div class="content-video">
+    <div class="content-video-frame medium">
+      <span></span>
       <video playsinline autoplay loop muted>
-        <source src="Videos/compare.mp4" type="video/mp4"/>
+        <source src="Videos/Exp1.mp4" type="video/mp4"/>
       </video>
     </div>
+  </div>
 
-    <h2>SYSTEMATIC PERSPECTIVE OF HANDKERCHIEF SPINNING TASK</h2>
-    <p>
-      To address these challenges, we propose the integrated framework:
-    </p>
-    <ul>
-      <li>Design a parallel anti-parallelogram tendon-driven wrist to provide the high-dynamic actuation required for spinning.</li>
-      <li>Develop a control-oriented particle-spring model to abstract the behavior of the handkerchief in a form suitable for strategy design.</li>
-      <li>Combine these with a hierarchical controller and tailored initiation strategies to manage the transition from rest into stable periodic motion.</li>
-    </ul>
-    <p>
-      Together, this framework enables precise and robust handkerchief spinning.
-    </p>
-
-
-
-    <h2>DETAILED METHOD</h2>
-
-    <h3>Intuitive dexterous wrist</h3>
-    <p>
-     We first analyzed the mobility of the human wrist. In the ulnar-radial direction, the human wrist ranges from about minus forty-five to plus twenty-five degrees.In flexion and extension, the range is minus seventy-five to plus seventy-five degrees.
-     Based on these observations, we developed an intuitive dexterous wrist that achieves omnidirectional ninety-degree rotation without singularities . The intuitive dexterous extends these ranges by approximately 100% in ulnar deviation, 260% in radial deviation, and about 20% in flexion-extension.
-    </p>
-    <div class="figure" style="background-image:url(Figures/wristcompare.png)"></div>
-
-
-    <h3>Parallel anti-parallelogram tendon-driven wrist</h3>
-    <p>
-      Inspired by human wrist anatomy, we design a compact 2-DOF tendon-driven joint with two orthogonal anti-parallelogram linkages. 
-      The design reduces footprint and inertia by $\sim50\%$, preserves $90^\circ$ omnidirectional rotation, and integrates decoupled encoders for precise roll–pitch sensing. 
-      Tendons are routed through guides to rear-mounted motors, minimizing distal inertia and enhancing dynamic responsiveness.
-    </p>
-    <div class="figure" style="background-image:url(Figures/wristdesign.png)"></div>
-
-    <h3>Hierarchical control</h3>
-    <p>
-      We implement a high–low level control framework: at high level, optimized kinematic strategies initiate and regulate spin; 
-      at low level, two tendon motors execute commands. During initiation, kinematic control ensures acceleration; 
-      once stable spinning emerges, direct periodic motor commands maintain motion with improved stability.
-    </p>
-    <div class="figure" style="background-image:url(Figures/control_scheme.jpg)"></div>
-
-    <h3>Particle–spring model</h3>
-    <p>
-      To study initiation, we develop a particle–spring model that captures essential fabric dynamics under frictional contacts and boundary constraints. 
-      This abstraction focuses on macroscopic effects relevant to control and enables evaluation of different initiation strategies.
-    </p>
-    <div class="figure" style="background-image:url(Figures/particle_spring.png)"></div>
-
-    <h2>EXPERIMENTS</h2>
-    <h3>Initiation strategies</h3>
-    <p>
-      We evaluate acceleration-based, directional-throw, and oscillatory strategies. 
-      Experiments show that the acceleration-based strategy rapidly establishes steady spinning within $\sim3$s, achieving $\sim99\%$ unfolding. 
-      Other strategies result in incomplete or unstable unfolding, consistent with Poincaré analysis.
-    </p>
-    <div class="content-video">
+  <h3>Moving target tracking</h3>
+  <p>
+    Eight sequential targets were placed near the workspace boundaries. The robot converged to 
+    each target quickly, with average errors on the order of a few millimeters. Errors were 
+    larger for diagonal targets, consistent with stronger coupling and larger actuation ranges, 
+    but overall performance followed expected modeling trends.
+  </p>
+  <div class="content-video">
+    <div class="content-video-frame medium">
+      <span></span>
       <video playsinline autoplay loop muted>
-        <source src="Videos/Exp_strategy.mp4" type="video/mp4"/>
+        <source src="Videos/Exp2.mp4" type="video/mp4"/>
       </video>
     </div>
+  </div>
 
-    <h3>Variable-axis spinning</h3>
-    <p>
-      Under commanded reorientation ($\dot{\alpha}=0.1\,\text{rad/s}$, $\alpha=12^\circ$), 
-      the Cartesian trajectory and $x/y$ profiles show precise tracking with fingertip $\mathrm{RMSE}=2.88\,\text{mm}$ and $R^2=0.9898$, 
-      validating the hierarchical controller for coordinated axis reorientation and stable spinning.
-    </p>
-    <div class="figure" style="background-image:url(Figures/variable_axis.png)"></div>
-
-    <h2>CONCLUSION</h2>
-    <p>
-      We demonstrated that a parallel anti-parallelogram tendon-driven wrist, combined with hierarchical control and particle–spring modeling, 
-      enables robust and precise handkerchief spinning. The system achieves near-complete unfolding and millimeter-level accuracy. 
-      This framework provides a practical recipe for dynamic fabric manipulation, and future work will explore learning-based extensions for more complex skills and humanoid dual-arm coordination.
-    </p>
-
-    <h2>VIDEO</h2>
+  <h2>VIDEO</h2>
+  <p>
+    The complete video demonstrates the deployment of the method on multi-segment soft robots, 
+    including model training, I-MPPI control process, and real-world task execution.
+  </p>
+  <div style="margin-bottom: 32px; display: flex; justify-content: center;">
     <div style="width: 1000px;">
       <span></span>
       <video playsinline autoplay loop preload muted width="1000" height="auto">
-        <source src="Videos/ICRA26_3588_3m45s.mp4" type="video/mp4"/>
+        <source src="Videos/ICRA_5127_IMPPI.mp4" type="video/mp4"/>
       </video>
     </div>
   </div>
 
-  </div>
+</div>
 
-  <footer>
-    <a href="#top" class="bold">To top &UpArrow;</a>
-  </footer>
-</body>
-</html>
 
+<footer>
+  <a href="#top" class="bold">To top &UpArrow;</a>
+</footer>
