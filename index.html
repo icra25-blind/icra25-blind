@@ -27,7 +27,17 @@
   </h1>
 </div>
 
+
+
+
 <div class="content">
+
+  <h2>ABSTRACT</h2>
+  <p class="abstract">
+    While soft robots offer intrinsic compliance and safety, controlling them poses fundamental challenges due to high dimensionality, strong nonlinear and time-varying dynamics, and partial observability. Many learning-based controllers tackle these challenges with complex architectures, yet often suffer from multi-solution ambiguity, distribution shift, and compounding error over long horizons. We pursue a deliberately minimal alternative. We learn a simple dynamics model directly from experimental data for compliant motion, and embed it into a novel iterative Model Predictive Path Integral controller (I-MPPI). In each control cycle, I-MPPI performs multiple short-horizon, uncertainty-aware sampling updates that progressively refine the control sequence via importance weighting, mitigating model bias and long-horizon error accumulation while keeping computation lightweight. This simple two-component design—model learning with iterative sampling-based MPC requires few assumptions, avoids large policy networks or differentiable simulators, and is easy to implement and tune. Experiments on a multi-segment soft robot show real-time, robust, and high-precision trajectory tracking under disturbances and parameter variations, highlighting the practicality and deployability of minimal learning-based control for soft-robotic systems.
+  </p>
+  <div class="hr"></div>
+
 
   <h2>METHOD</h2>
 
